@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { AppProvider } from './context.';
 import './index.css';
 import Home from './pages/Home/Home';
@@ -10,15 +11,14 @@ import BookList from "./components/BookList/BookList";
 import BookDetails from "./components/BookDetails/BookDetails";
 import Account from './pages/Account/Account';
 import Wishlist from './pages/Wishlist/Wishlist';
-import PrivateRoute from './PrivateRoute';
 import Notfound from "./pages/Notfound/Notfound";
-import { AuthProvider } from './AuthContext';
+import AuthRequired from './AuthRequired';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
     <AppProvider>
-      <AuthProvider>
+  
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />}>
@@ -28,14 +28,24 @@ root.render(
             </Route>
 
             <Route path= "account"  element={<Account />} /> 
-       {/* Use standard Route for Wishlist without PrivateRoute */}
-       <Route path="/wishlist" element={<Wishlist />} />
+     
+            <Route
+      path="wishList"
+      element={<AuthRequired><h1>Super secret info here</h1></AuthRequired>}
+      loader={async () => {
+        const isLoggedIn = false
+        if(!isLoggedIn) {
+          throw redirect("/account")
+        }
+        return null
+      }}
+    />
 
 
             <Route path="*" element={<Notfound />} />
           </Routes>
         </BrowserRouter>
-      </AuthProvider>
+  
     </AppProvider>
 
 );
