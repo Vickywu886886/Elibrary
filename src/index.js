@@ -1,6 +1,6 @@
 // index.js
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { redirect } from 'react-router-dom';
 import { AppProvider } from './context.';
@@ -12,7 +12,9 @@ import BookDetails from "./components/BookDetails/BookDetails";
 import Account from './pages/Account/Account';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Notfound from "./pages/Notfound/Notfound";
-import AuthRequired from './AuthRequired';
+import AuthRequired, { isLoggedIn } from './AuthRequired';
+
+import "./server"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,19 +30,12 @@ root.render(
             </Route>
 
             <Route path= "account"  element={<Account />} /> 
-     
+            <Route path= "wishlist"  element={<Wishlist />} /> 
             <Route
-      path="wishList"
-      element={<AuthRequired><h1>Super secret info here</h1></AuthRequired>}
-      loader={async () => {
-        const isLoggedIn = false
-        if(!isLoggedIn) {
-          throw redirect("/account")
-        }
-        return null
-      }}
-    />
+      path="wishlist"
+      element={!isLoggedIn ? <AuthRequired></AuthRequired> : <Wishlist />}/>
 
+     
 
             <Route path="*" element={<Notfound />} />
           </Routes>

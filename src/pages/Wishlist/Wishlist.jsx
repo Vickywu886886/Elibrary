@@ -9,7 +9,7 @@ export default function Wishlist(){
         <div>
         <Navbar/>
         <div className="wishlist-page">
-        <h1>Wishlist<AiOutlineHeart/></h1>
+        <h1>You need to log in to see your wishlist</h1>
         </div>
         </div>
     )

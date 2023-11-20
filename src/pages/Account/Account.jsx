@@ -1,7 +1,9 @@
 import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import "./Account.css"
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { loginUser } from '../../api';
+
 
 
 export default function Account() {
@@ -10,10 +12,18 @@ export default function Account() {
     const message = new URLSearchParams(location.search).get("message");
 
     const [loginFormData, setLoginFormData] = React.useState({ email: "", password: "" })
-
+    const [status, setStatus]= React.useState("idle")
+    const [error, setError]=React.useState(null)
+    const navigate= useNavigate()
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(loginFormData)
+        setStatus("submitting")
+        setError(null)
+        loginUser(loginFormData)
+
+        .then(data=>navigate("/wishlist", { replace: true }))
+        .catch(err=>setError(err))
+        .finally(()=>setStatus("idle"))
     }
 
     function handleChange(e) {
@@ -30,7 +40,8 @@ export default function Account() {
         <div className="login-container">
   
             <h1>Sign in to your account</h1>
-            <p style={{color:'red'}}>{message || ""}</p>
+            {message && <h3 style={{color:"red"}}>{message}</h3>}
+            {error && <h3 className="red">{error.message}</h3>}
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     name="email"
@@ -46,7 +57,9 @@ export default function Account() {
                     placeholder="Password"
                     value={loginFormData.password}
                 />
-                <button>Log in</button>
+                <button disabled={status==="submitting"}>
+                    {status==="submitting"?"Logging in" : "Log in"}
+                    </button>
             </form>
         </div>
         </div>
