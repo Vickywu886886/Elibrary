@@ -12,6 +12,8 @@ import BookDetails from "./components/BookDetails/BookDetails";
 import Account from './pages/Account/Account';
 import Wishlist from './pages/Wishlist/Wishlist';
 import Notfound from "./pages/Notfound/Notfound";
+import Register from './pages/Account/Register';
+
 import AuthRequired, { isLoggedIn } from './AuthRequired';
 
 import "./server"
@@ -28,12 +30,13 @@ root.render(
               <Route path="book" element={<BookList />} />
               <Route path="/book/:id" element={<BookDetails />} />
             </Route>
-
+            <Route path= "register"  element={<Register/>} />
             <Route path= "account"  element={<Account />} /> 
+            
             <Route path= "wishlist"  element={<Wishlist />} /> 
             <Route
-      path="wishlist"
-      element={!isLoggedIn ? <AuthRequired></AuthRequired> : <Wishlist />}/>
+            path="wishlist"
+            element={<AuthRequired></AuthRequired>}/>
 
      
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import "./Wishlist.css"
-import {  AiOutlineHeart } from 'react-icons/ai';
+
 
 
 export default function Wishlist(){

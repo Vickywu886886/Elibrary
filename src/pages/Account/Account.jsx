@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import "./Account.css"
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api';
 
 
@@ -59,7 +59,9 @@ export default function Account() {
                 />
                 <button disabled={status==="submitting"}>
                     {status==="submitting"?"Logging in" : "Log in"}
+                    
                     </button>
+                    <Link to="/register" style={{textDecoration:"underline"}}>Don't have an account? Register here</Link>
             </form>
         </div>
         </div>
